@@ -16,6 +16,7 @@ export async function createCommunity(
     bio: string,
     createdById: string // Change the parameter name to reflect it's an id
 ) {
+    console.log('CreateCommunity is called')
     try {
         connectToDB();
 
@@ -34,13 +35,12 @@ export async function createCommunity(
             bio,
             createdBy: user._id, // Use the mongoose ID of the user
         });
-
+        console.log('Created Community:', newCommunity)
         const createdCommunity = await newCommunity.save();
 
         // Update User model
         user.communities.push(createdCommunity._id);
         await user.save();
-
         return createdCommunity;
     } catch (error) {
         // Handle any errors
